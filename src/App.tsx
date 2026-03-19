@@ -66,19 +66,44 @@ const SERVICES = [
 
 const EQUIPMENT = [
   {
-    title: 'LAUNCH PRO / AUTEL',
+    title: 'LAUNCH PRO',
     desc: 'Дилерский уровень: чтение данных, адаптации и кодирование блоков.',
-    src: 'https://img.freepik.com/free-photo/car-diagnostic-tool_23-2149175399.jpg',
+    src: 'https://i.ibb.co.com/67Jv1mnK/IMG-1635.jpg',
   },
   {
     title: 'Дымогенератор G-Smoke',
     desc: 'Точный поиск утечек воздуха во впускной и вакуумной системах.',
-    src: 'https://img.freepik.com/free-photo/car-repairman-checking-engine_23-2148737398.jpg',
+    src: 'https://i.ibb.co.com/wZwyn3fw/Screenshot-1.jpg',
   },
   {
     title: 'Стенд чистки форсунок',
     desc: 'Проверка факела распыла и ультразвуковая очистка форсунок.',
-    src: 'https://img.freepik.com/free-photo/fuel-injector-cleaning_23-2149175404.jpg',
+    src: 'https://i.ibb.co.com/FL3kZXz7/Whats-App-Image-2026-03-19-at-08-58-19.jpg',
+  },
+  {
+    title: 'Сканматик 2',
+    desc: 'Сканматик 2 (и его обновленная версия 2 PRO) — это профессиональный мультимарочный автосканер, предназначенный для диагностики электронных систем управления современных автомобилей. Это одно из самых популярных и уважаемых устройств среди диагностов в СНГ.',
+    src: 'https://i.ibb.co.com/RTX0bNLc/a3fc10be11c57c319fec04cfb87720ed.jpg',
+  },
+  {
+    title: 'Лаборатория "Мотор-Мастер"',
+    desc: 'Комплекс «Мотор-Мастер» (Motor-Master) — это профессиональное российское оборудование для чип-тюнинга и глубокой диагностики систем управления двигателем. Чаще всего под этим названием подразумевают связку программного обеспечения и аппаратных модулей (таких как Diag-2 или Scan Master CAN)',
+    src: ' https://i.ibb.co.com/VcMPd656/full-img-f313d690f244-5.jpg',
+  },
+  {
+    title: 'ThinkScan 689 BT',
+    desc: 'Сканер Thinkscan 689BT — это мощное мультимарочное устройство, которое поддерживает более 140 марок автомобилей со всего мира (Азия, Европа, Америка, Китай). Поддерживаются практически все популярные бренды авто. Начиная с 1992 по 2026 годы выпуска автомобилей',
+    src: 'https://i.ebayimg.com/images/g/dhIAAOSwEYtoCKwl/s-l1600.jpg',
+  },
+  {
+    title: 'КИ-968',
+    desc: 'Точность 100%: Мы имитируем реальные нагрузки двигателя. Если генератор «сбоит» только на высоких оборотах — мы это увидим. Честный ремонт: Мы меняем только то, что реально вышло из строя (реле, диодный мост или щетки), экономя ваш бюджет. Проверка под нагрузкой: Ваш стартер крутит «вяло»? Мы замерим пусковой ток и найдем причину за 15 минут.',
+    src: 'https://img.board.com.ua/a/1042919688/wm/0-stend-dlya-proverki-starterov-i-generatorov.jpg',
+  },
+  {
+    title: 'Замер давления топливной системы',
+    desc: 'Точность 100%: Мы имитируем реальные нагрузки двигателя. Если генератор «сбоит» только на высоких оборотах — мы это увидим. Честный ремонт: Мы меняем только то, что реально вышло из строя (реле, диодный мост или щетки), экономя ваш бюджет. Проверка под нагрузкой: Ваш стартер крутит «вяло»? Мы замерим пусковой ток и найдем причину за 15 минут.',
+    src: 'https://i.ibb.co.com/MrPZ99j/video-Preview.jpg',
   },
 ]
 
@@ -362,80 +387,96 @@ export const App = () => {
             </Grid>
           </Box>
 
-          <Container maxWidth="md" sx={{ py: 8 }}>
-  <motion.div
-    initial={{ opacity: 0, scale: 0.9 }}
-    whileInView={{ opacity: 1, scale: 1 }}
-    viewport={{ once: true }}
-  >
-    <Paper sx={{ p: { xs: 3, md: 6 }, bgcolor: alpha('#132f4c', 0.8), border: '2px solid', borderColor: 'primary.main' }}>
-      <Typography variant="h4" align="center" sx={{ fontWeight: 900, mb: 4, color: 'white' }}>
-        ЗАПИСЬ НА ДИАГНОСТИКУ
-      </Typography>
-      
-      <Grid container spacing={3}>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label="Ваше имя"
-            name="name"
-            variant="outlined"
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label="Марка и модель авто"
-            name="car"
-            variant="outlined"
-            placeholder="Напр: Hyundai Tucson"
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label="Номер телефона"
-            name="phone"
-            variant="outlined"
-            placeholder="+7 (___) ___-__-__"
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            select
-            label="Выберите услугу"
-            name="service"
-            value={booking.service}
-            onChange={handleInputChange}
-            SelectProps={{ native: true }}
-          >
-            {SERVICES.map((s) => (
-              <option key={s.title} value={s.title}>{s.title}</option>
-            ))}
-          </TextField>
-        </Grid>
-        <Grid size={{ xs: 12 }}>
-          <Button
-            fullWidth
-            variant="contained"
-            size="large"
-            onClick={sendOrder}
-            sx={{ py: 2, fontWeight: 'bold', fontSize: '1.1rem' }}
-          >
-            ОТПРАВИТЬ ЗАЯВКУ В WHATSAPP
-          </Button>
-          <Typography variant="caption" sx={{ display: 'block', mt: 2, textAlign: 'center', opacity: 0.6 }}>
-            * После нажатия данные сформируются в сообщение для мастера
-          </Typography>
-        </Grid>
-      </Grid>
-    </Paper>
-  </motion.div>
-</Container>
+          <Container maxWidth='md' sx={{py: 8}}>
+            <motion.div
+              initial={{opacity: 0, scale: 0.9}}
+              whileInView={{opacity: 1, scale: 1}}
+              viewport={{once: true}}>
+              <Paper
+                sx={{
+                  p: {xs: 3, md: 6},
+                  bgcolor: alpha('#132f4c', 0.8),
+                  border: '2px solid',
+                  borderColor: 'primary.main',
+                }}>
+                <Typography
+                  variant='h4'
+                  align='center'
+                  sx={{fontWeight: 900, mb: 4, color: 'white'}}>
+                  ЗАПИСЬ НА ДИАГНОСТИКУ
+                </Typography>
+
+                <Grid container spacing={3}>
+                  <Grid size={{xs: 12, sm: 6}}>
+                    <TextField
+                      fullWidth
+                      label='Ваше имя'
+                      name='name'
+                      variant='outlined'
+                      onChange={handleInputChange}
+                    />
+                  </Grid>
+                  <Grid size={{xs: 12, sm: 6}}>
+                    <TextField
+                      fullWidth
+                      label='Марка и модель авто'
+                      name='car'
+                      variant='outlined'
+                      placeholder='Напр: Hyundai Tucson'
+                      onChange={handleInputChange}
+                    />
+                  </Grid>
+                  <Grid size={{xs: 12, sm: 6}}>
+                    <TextField
+                      fullWidth
+                      label='Номер телефона'
+                      name='phone'
+                      variant='outlined'
+                      placeholder='+7 (___) ___-__-__'
+                      onChange={handleInputChange}
+                    />
+                  </Grid>
+                  <Grid size={{xs: 12, sm: 6}}>
+                    <TextField
+                      fullWidth
+                      select
+                      label='Выберите услугу'
+                      name='service'
+                      value={booking.service}
+                      onChange={handleInputChange}
+                      SelectProps={{native: true}}>
+                      {SERVICES.map((s) => (
+                        <option key={s.title} value={s.title}>
+                          {s.title}
+                        </option>
+                      ))}
+                    </TextField>
+                  </Grid>
+                  <Grid size={{xs: 12}}>
+                    <Button
+                      fullWidth
+                      variant='contained'
+                      size='large'
+                      onClick={sendOrder}
+                      sx={{py: 2, fontWeight: 'bold', fontSize: '1.1rem'}}>
+                      ОТПРАВИТЬ ЗАЯВКУ В WHATSAPP
+                    </Button>
+                    <Typography
+                      variant='caption'
+                      sx={{
+                        display: 'block',
+                        mt: 2,
+                        textAlign: 'center',
+                        opacity: 0.6,
+                      }}>
+                      * После нажатия данные сформируются в сообщение для
+                      мастера
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Paper>
+            </motion.div>
+          </Container>
 
           {/* МАРКИ */}
           <Box sx={{py: 6, textAlign: 'center'}}>
