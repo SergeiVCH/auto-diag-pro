@@ -1,0 +1,393 @@
+import {
+  alpha,
+  AppBar,
+  Box,
+  Button,
+  Container,
+  createTheme,
+  CssBaseline,
+  Paper,
+  Stack,
+  ThemeProvider,
+  Toolbar,
+  Typography,
+} from '@mui/material'
+import Grid from '@mui/material/Grid'
+import {useEffect, useMemo, useState} from 'react'
+
+// Иконки
+import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull'
+import BuildIcon from '@mui/icons-material/Build'
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar'
+import EngineeringIcon from '@mui/icons-material/Engineering'
+import HandymanIcon from '@mui/icons-material/Handyman'
+import SensorsIcon from '@mui/icons-material/Sensors'
+import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent'
+import SpeedIcon from '@mui/icons-material/Speed'
+
+// Графики (pnpm add recharts)
+import {Line, LineChart, ResponsiveContainer, YAxis} from 'recharts'
+import {motion} from 'framer-motion'
+
+// --- ДАННЫЕ ---
+const SERVICES = [
+  {
+    title: 'Компьютерная диагностика',
+    desc: 'Чтение DTC ошибок, анализ параметров через OBD-II.',
+    icon: <SettingsInputComponentIcon sx={{fontSize: 40}} />,
+  },
+  {
+    title: 'Ремонт стартеров и генераторов',
+    desc: 'Проверка на стенде, замена щеток и подшипников.',
+    icon: <EngineeringIcon sx={{fontSize: 40}} />,
+  },
+  {
+    title: 'Топливная система',
+    desc: 'Замер давления и чистка форсунок.',
+    icon: <SpeedIcon sx={{fontSize: 40}} />,
+  },
+  {
+    title: 'Обслуживание АКБ',
+    desc: 'Зарядка, восстановление и проверка нагрузкой.',
+    icon: <BatteryChargingFullIcon sx={{fontSize: 40}} />,
+  },
+  {
+    title: 'Дымогенератор',
+    desc: 'Поиск подсосов воздуха во впускной системе.',
+    icon: <DirectionsCarIcon sx={{fontSize: 40}} />,
+  },
+  {
+    title: 'Ремонт автоэлектрики',
+    desc: 'Поиск обрывов и ремонт проводки.',
+    icon: <BuildIcon sx={{fontSize: 40}} />,
+  },
+]
+
+const EQUIPMENT = [
+  {
+    title: 'LAUNCH PRO / AUTEL',
+    desc: 'Дилерский уровень: чтение данных, адаптации и кодирование блоков.',
+    src: 'https://img.freepik.com/free-photo/car-diagnostic-tool_23-2149175399.jpg',
+  },
+  {
+    title: 'Дымогенератор G-Smoke',
+    desc: 'Точный поиск утечек воздуха во впускной и вакуумной системах.',
+    src: 'https://img.freepik.com/free-photo/car-repairman-checking-engine_23-2148737398.jpg',
+  },
+  {
+    title: 'Стенд чистки форсунок',
+    desc: 'Проверка факела распыла и ультразвуковая очистка форсунок.',
+    src: 'https://img.freepik.com/free-photo/fuel-injector-cleaning_23-2149175404.jpg',
+  },
+]
+
+const CAR_BRANDS = [
+  'Toyota',
+  'Lexus',
+  'Hyundai',
+  'Kia',
+  'Chevrolet',
+  'Nissan',
+  'Opel',
+  'BMW',
+  'Ford',
+  'Subaru',
+  'Audi',
+  'Skoda',
+  'Honda',
+  'Suzuki',
+  'Volvo',
+  'Peugeot',
+  'Reno',
+  'Geely',
+  'Chery',
+  'Haval',
+  'Lifan',
+  'Chrysler',
+  'Mercedes-Benz',
+]
+
+// --- КОМПОНЕНТ ГРАФИКА ---
+const LiveDashboard = () => {
+  const [rpm, setRpm] = useState(800)
+  const [history, setHistory] = useState(
+    Array.from({length: 20}, (_, i) => ({t: i, v: 800})),
+  )
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const nextRpm = Math.floor(Math.random() * (820 - 780 + 1)) + 780
+      setRpm(nextRpm)
+      setHistory((prev) => [...prev.slice(1), {t: Date.now(), v: nextRpm}])
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <motion.div
+      initial={{opacity: 0, x: -100}} // Вылетает слева
+      whileInView={{opacity: 1, x: 0}}
+      transition={{duration: 0.8, ease: 'easeOut'}}
+      viewport={{once: true}}>
+      <Paper
+        sx={{
+          p: 3,
+          bgcolor: alpha('#132f4c', 0.5),
+          backdropFilter: 'blur(10px)',
+        }}>
+        <Stack direction='row' spacing={2} alignItems='center' mb={2}>
+          <SensorsIcon color='primary' />
+          <Typography variant='h6'>LIVE DATA</Typography>
+        </Stack>
+        <Typography variant='h3' color='primary' sx={{fontWeight: 900}}>
+          {rpm} RPM
+        </Typography>
+        <Box sx={{width: '100%', height: 80, mt: 2}}>
+          <ResponsiveContainer>
+            <LineChart data={history}>
+              <YAxis domain={[600, 1000]} hide />
+              <Line
+                type='monotone'
+                dataKey='v'
+                stroke='#ff9800'
+                strokeWidth={3}
+                dot={false}
+                isAnimationActive={false}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </Box>
+      </Paper>
+    </motion.div>
+    //
+  )
+}
+
+// --- ОСНОВНОЙ КОМПОНЕНТ ---
+export const App = () => {
+  const goldenAccent = '#ff9800'
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: 'dark',
+          primary: {main: goldenAccent},
+          background: {default: '#0a1929', paper: '#132f4c'},
+        },
+        shape: {borderRadius: 16},
+        components: {
+          MuiAppBar: {
+            styleOverrides: {
+              root: {
+                background: '#0a1929',
+                borderBottom: `2px solid ${goldenAccent}`,
+              },
+            },
+          },
+          MuiPaper: {
+            styleOverrides: {
+              root: {
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+                transition: 'all 0.3s ease-in-out',
+                '&:hover': {
+                  transform: 'translateY(-10px)',
+                  borderColor: goldenAccent,
+                  boxShadow: `0 0 25px 5px ${alpha(goldenAccent, 0.25)}`,
+                  border: '2px solid',
+                },
+              },
+            },
+          },
+        },
+      }),
+    [],
+  )
+
+  const handleConnect = () => window.open('https://wa.me/77051832533', '_blank')
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box sx={{minHeight: '100vh', bgcolor: 'background.default'}}>
+        <AppBar position='sticky' elevation={0}>
+          <Toolbar>
+            <DirectionsCarIcon sx={{mr: 2, color: 'primary.main'}} />
+            <Typography variant='h6' sx={{flexGrow: 1, fontWeight: 'bold'}}>
+              AUTO-DIAG PRO
+            </Typography>
+            <Button
+              variant='outlined'
+              color='primary'
+              onClick={handleConnect}
+              sx={{borderRadius: 10, borderWidth: 2}}>
+              Записаться
+            </Button>
+          </Toolbar>
+        </AppBar>
+
+        <Container sx={{py: 8}}>
+          <Typography
+            variant='h2'
+            align='center'
+            sx={{fontWeight: 900, color: 'white', mb: 6}}>
+            Диагностика Вашего авто
+          </Typography>
+
+          {/* УСЛУГИ */}
+          <Grid container spacing={3} sx={{mb: 10}}>
+            {SERVICES.map((s, i) => (
+              <Grid size={{xs: 12, sm: 6, md: 4}} key={i}>
+                {/* 1. Добавляем оболочку для анимации */}
+                <motion.div
+                  initial={{opacity: 0, y: 50}} // Начинаем: невидимый и смещен вниз на 50px
+                  whileInView={{opacity: 1, y: 0}} // Когда доскроллили: проявляется и встает на место
+                  viewport={{once: true, amount: 0.2}} // Сработает один раз, когда 20% карточки видно
+                  transition={{
+                    duration: 0.6, // Длительность подъема — 0.6 сек
+                    delay: i * 0.1, // Каждая следующая карточка ждет чуть дольше
+                  }}>
+                  {/* Твой существующий Paper (карточка) */}
+                  <Paper sx={{p: 4, height: '100%', textAlign: 'center'}}>
+                    <Box sx={{color: 'primary.main', mb: 2}}>{s.icon}</Box>
+                    <Typography
+                      variant='h6'
+                      sx={{fontWeight: 700, color: 'white'}}>
+                      {s.title}
+                    </Typography>
+                    <Typography
+                      variant='body2'
+                      sx={{color: 'white', mt: 1, opacity: 1}}>
+                      {s.desc}
+                    </Typography>
+                  </Paper>
+                </motion.div>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* ЖИВЫЕ ДАННЫЕ */}
+          <Grid container spacing={4} alignItems='center' sx={{mb: 12}}>
+            <Grid size={{xs: 12, md: 5}}>
+              <LiveDashboard />
+            </Grid>
+            <Grid size={{xs: 12, md: 7}}>
+              <Typography variant='h4' sx={{fontWeight: 800, mb: 2}}>
+                ТОЧНЫЕ ДАННЫЕ
+              </Typography>
+              <Typography sx={{opacity: 0.7, fontSize: '1.1rem'}}>
+                Мы не гадаем на кофейной гуще. Используя графический анализ
+                параметров, мы видим отклонения в работе датчиков еще до того,
+                как они полностью выйдут из строя.
+              </Typography>
+            </Grid>
+          </Grid>
+
+          {/* ГАЛЕРЕЯ ОБОРУДОВАНИЯ */}
+          <Box sx={{mb: 12}}>
+            <Stack direction='row' spacing={2} justifyContent='center' mb={6}>
+              <HandymanIcon color='primary' fontSize='large' />
+              <Typography variant='h4' sx={{fontWeight: 800}}>
+                НАШЕ ОБОРУДОВАНИЕ
+              </Typography>
+            </Stack>
+            <Grid container spacing={4}>
+              {EQUIPMENT.map((item, i) => (
+                <Grid size={{xs: 12, md: 4}} key={i}>
+                  <motion.div
+                    initial={{opacity: 0, scale: 0.9}} // Здесь можно сделать эффект легкого масштабирования
+                    whileInView={{opacity: 1, scale: 1}}
+                    viewport={{once: true}}
+                    transition={{duration: 0.5, delay: i * 0.2}}>
+                    <Paper
+                      sx={{
+                        overflow: 'hidden',
+                        height: '100%',
+                        '&:hover img': {transform: 'scale(1.1)'},
+                      }}>
+                      <Box sx={{height: 220, overflow: 'hidden'}}>
+                        <img
+                          src={item.src}
+                          alt={item.title}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            transition: '0.4s',
+                          }}
+                        />
+                      </Box>
+                      <Box sx={{p: 3}}>
+                        <Typography
+                          variant='h6'
+                          gutterBottom
+                          sx={{fontWeight: 700, color: 'white'}}>
+                          {item.title}
+                        </Typography>
+                        <Typography
+                          variant='body2'
+                          sx={{color: 'white', opacity: 1}}>
+                          {item.desc}
+                        </Typography>
+                      </Box>
+                    </Paper>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+
+          {/* МАРКИ */}
+          <Box sx={{py: 6, textAlign: 'center'}}>
+            <Typography
+              variant='overline'
+              sx={{opacity: 0.5, letterSpacing: 3}}>
+              РАБОТАЕМ СО ВСЕМИ МАРКАМИ
+            </Typography>
+            <Grid container spacing={2} justifyContent='center' sx={{mt: 2}}>
+              {CAR_BRANDS.map((brand) => (
+                <Grid size={{xs: 6, sm: 3, md: 1.5}} key={brand}>
+                  <Paper
+                    variant='outlined'
+                    sx={{
+                      py: 1.5,
+                      bgcolor: 'transparent',
+                      borderColor: 'rgba(255,152,0,0.2)',
+                    }}>
+                    <Typography
+                      sx={{fontWeight: 'bold', color: 'primary.main'}}>
+                      {brand}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </Container>
+
+        {/* FOOTER */}
+        <Box
+          sx={{
+            py: 8,
+            bgcolor: '#05101c',
+            borderTop: `1px solid ${alpha(goldenAccent, 0.2)}`,
+            textAlign: 'center',
+          }}>
+          <Typography variant='h4' sx={{mb: 2, fontWeight: 900}}>
+            +7 (705) 183-25-33
+          </Typography>
+          <Button
+            variant='contained'
+            size='large'
+            onClick={handleConnect}
+            sx={{px: 6, py: 1.5, fontWeight: 'bold'}}>
+            WhatsApp Консультация
+          </Button>
+          <Typography variant='body2' sx={{mt: 3, opacity: 0.4}}>
+            с. Смирново, р. Аккайынский район, обл. СКО
+          </Typography>
+        </Box>
+      </Box>
+    </ThemeProvider>
+  )
+}
