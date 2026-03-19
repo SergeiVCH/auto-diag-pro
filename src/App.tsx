@@ -8,6 +8,7 @@ import {
   CssBaseline,
   Paper,
   Stack,
+  TextField,
   ThemeProvider,
   Toolbar,
   Typography,
@@ -165,6 +166,12 @@ const LiveDashboard = () => {
 
 // --- ОСНОВНОЙ КОМПОНЕНТ ---
 export const App = () => {
+  const [booking, setBooking] = useState({
+    name: '',
+    phone: '',
+    car: '',
+    service: SERVICES[0].title,
+  })
   const goldenAccent = '#ff9800'
 
   const theme = useMemo(
@@ -205,6 +212,24 @@ export const App = () => {
   )
 
   const handleConnect = () => window.open('https://wa.me/77051832533', '_blank')
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBooking({...booking, [e.target.name]: e.target.value})
+  }
+
+  // Функция отправки (пока просто в WhatsApp с готовым текстом)
+  const sendOrder = () => {
+    const message = `Здравствуйте! Запись на диагностику:
+Имя: ${booking.name}
+Авто: ${booking.car}
+Услуга: ${booking.service}
+Тел: ${booking.phone}`
+
+    window.open(
+      `https://wa.me/77051832533?text=${encodeURIComponent(message)}`,
+      '_blank',
+    )
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -336,6 +361,81 @@ export const App = () => {
               ))}
             </Grid>
           </Box>
+
+          <Container maxWidth="md" sx={{ py: 8 }}>
+  <motion.div
+    initial={{ opacity: 0, scale: 0.9 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    viewport={{ once: true }}
+  >
+    <Paper sx={{ p: { xs: 3, md: 6 }, bgcolor: alpha('#132f4c', 0.8), border: '2px solid', borderColor: 'primary.main' }}>
+      <Typography variant="h4" align="center" sx={{ fontWeight: 900, mb: 4, color: 'white' }}>
+        ЗАПИСЬ НА ДИАГНОСТИКУ
+      </Typography>
+      
+      <Grid container spacing={3}>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TextField
+            fullWidth
+            label="Ваше имя"
+            name="name"
+            variant="outlined"
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TextField
+            fullWidth
+            label="Марка и модель авто"
+            name="car"
+            variant="outlined"
+            placeholder="Напр: Hyundai Tucson"
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TextField
+            fullWidth
+            label="Номер телефона"
+            name="phone"
+            variant="outlined"
+            placeholder="+7 (___) ___-__-__"
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TextField
+            fullWidth
+            select
+            label="Выберите услугу"
+            name="service"
+            value={booking.service}
+            onChange={handleInputChange}
+            SelectProps={{ native: true }}
+          >
+            {SERVICES.map((s) => (
+              <option key={s.title} value={s.title}>{s.title}</option>
+            ))}
+          </TextField>
+        </Grid>
+        <Grid size={{ xs: 12 }}>
+          <Button
+            fullWidth
+            variant="contained"
+            size="large"
+            onClick={sendOrder}
+            sx={{ py: 2, fontWeight: 'bold', fontSize: '1.1rem' }}
+          >
+            ОТПРАВИТЬ ЗАЯВКУ В WHATSAPP
+          </Button>
+          <Typography variant="caption" sx={{ display: 'block', mt: 2, textAlign: 'center', opacity: 0.6 }}>
+            * После нажатия данные сформируются в сообщение для мастера
+          </Typography>
+        </Grid>
+      </Grid>
+    </Paper>
+  </motion.div>
+</Container>
 
           {/* МАРКИ */}
           <Box sx={{py: 6, textAlign: 'center'}}>
