@@ -33,7 +33,7 @@ import {motion} from 'framer-motion'
 // --- ДАННЫЕ ---
 const SERVICES = [
   {
-    title: 'Компьютерная диагностика',
+    title: '',
     desc: 'Чтение DTC ошибок, анализ параметров через OBD-II.',
     icon: <SettingsInputComponentIcon sx={{fontSize: 40}} />,
   },
@@ -96,9 +96,14 @@ const EQUIPMENT = [
     src: 'https://i.ebayimg.com/images/g/dhIAAOSwEYtoCKwl/s-l1600.jpg',
   },
   {
-    title: 'КИ-968',
+    title: 'Стенд КИ-968',
     desc: 'Точность 100%: Мы имитируем реальные нагрузки двигателя. Если генератор «сбоит» только на высоких оборотах — мы это увидим. Честный ремонт: Мы меняем только то, что реально вышло из строя (реле, диодный мост или щетки), экономя ваш бюджет. Проверка под нагрузкой: Ваш стартер крутит «вяло»? Мы замерим пусковой ток и найдем причину за 15 минут.',
-    src: 'https://img.board.com.ua/a/1042919688/wm/0-stend-dlya-proverki-starterov-i-generatorov.jpg',
+    src: 'https://avatars.mds.yandex.net/i?id=fa272ffd4adf81d379b616fb2ade2515_l-5273845-images-thumbs&n=13',
+  },
+  {
+    title: 'ППЯ',
+    desc: 'Прибор ППЯ533 предназначен для проверки обмоток якорей и катушек возбуждения автотракторных генераторов и стартеров, а также для размагничивания постоянных магнитов.',
+    src: 'https://i.ytimg.com/vi/XLmQr0pPHww/hqdefault.jpg',
   },
   {
     title: 'Замер давления топливной системы',
@@ -276,7 +281,7 @@ export const App = () => {
               color='primary'
               onClick={handleConnect}
               sx={{borderRadius: 10, borderWidth: 2}}>
-              Записаться
+              WhatsApp Консультация
             </Button>
           </Toolbar>
         </AppBar>
@@ -286,7 +291,7 @@ export const App = () => {
             variant='h2'
             align='center'
             sx={{fontWeight: 900, color: 'white', mb: 6}}>
-            Диагностика Вашего авто
+            Диагностика и ремонт электрооборудования автомобилей
           </Typography>
 
           {/* УСЛУГИ */}
@@ -444,18 +449,15 @@ export const App = () => {
                   <Grid size={{xs: 12, sm: 6}}>
                     <TextField
                       fullWidth
-                      select
-                      label='Выберите услугу'
-                      name='service'
+                      multiline // Включает многострочность
+                      rows={4} // Устанавливает высоту (количество строк)
+                      label='Описание проблемы'
+                      name='service' // Можно оставить или заменить на 'description'
                       value={booking.service}
                       onChange={handleInputChange}
-                      SelectProps={{native: true}}>
-                      {SERVICES.map((s) => (
-                        <option key={s.title} value={s.title}>
-                          {s.title}
-                        </option>
-                      ))}
-                    </TextField>
+                      placeholder='Например: горит ошибка ABS, машина не заводится'
+                      variant='outlined'
+                    />
                   </Grid>
                   <Grid size={{xs: 12}}>
                     <Button
@@ -522,7 +524,13 @@ export const App = () => {
           <Typography variant='h4' sx={{mb: 2, fontWeight: 900}}>
             +7 (705) 183-25-33
           </Typography>
-          <Button
+          <Typography variant='h4' sx={{mb: 2, fontWeight: 900}}>
+            +7 (747) 820-21-89
+          </Typography>
+          <Typography variant='h4' sx={{mb: 2, fontWeight: 900}}>
+            +7 (700) 651-81-93
+          </Typography>
+          {/* <Button
             variant='contained'
             size='large'
             onClick={handleConnect}
@@ -530,8 +538,8 @@ export const App = () => {
             WhatsApp Консультация
           </Button>
           <Typography variant='body2' sx={{mt: 3, opacity: 0.4}}>
-            с. Смирново, р. Аккайынский район, обл. СКО
-          </Typography>
+
+          </Typography> */}
         </Box>
       </Box>
     </ThemeProvider>
