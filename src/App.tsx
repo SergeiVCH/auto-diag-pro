@@ -6,6 +6,7 @@ import {
   Container,
   createTheme,
   CssBaseline,
+  Link,
   Paper,
   Stack,
   TextField,
@@ -25,10 +26,11 @@ import HandymanIcon from '@mui/icons-material/Handyman'
 import SensorsIcon from '@mui/icons-material/Sensors'
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent'
 import SpeedIcon from '@mui/icons-material/Speed'
+import CodeIcon from '@mui/icons-material/Code'
 
 // Графики (pnpm add recharts)
-import {Line, LineChart, ResponsiveContainer, YAxis} from 'recharts'
 import {motion} from 'framer-motion'
+import {Line, LineChart, ResponsiveContainer, YAxis} from 'recharts'
 
 // --- ДАННЫЕ ---
 const SERVICES = [
@@ -254,16 +256,15 @@ export const App = () => {
 
   // Функция отправки (пока просто в WhatsApp с готовым текстом)
   const sendOrder = () => {
-    const message = `Здравствуйте! Запись на диагностику:
+    const message = `Здравствуйте!
+Заявка на диагностику:
 Имя: ${booking.name}
 Авто: ${booking.car}
-Услуга: ${booking.service}
-Тел: ${booking.phone}`
+Телефон: ${booking.phone}
+Описание: ${booking.service}` // это наше новое текстовое поле
 
-    window.open(
-      `https://wa.me/77051832533?text=${encodeURIComponent(message)}`,
-      '_blank',
-    )
+    const encodedMessage = encodeURIComponent(message)
+    window.open(`https://wa.me/77051832533?text=${encodedMessage}`, '_blank')
   }
 
   return (
@@ -540,6 +541,60 @@ export const App = () => {
           <Typography variant='body2' sx={{mt: 3, opacity: 0.4}}>
 
           </Typography> */}
+        </Box>
+        <Box
+          component='footer'
+          sx={{
+            py: 3,
+            textAlign: 'center',
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+            mt: 'auto',
+          }}>
+          <Typography
+            variant='h5'
+            sx={{
+              color: 'rgba(255, 255, 255, 0.5)',
+              display: 'flex',
+              justifyContent: 'center',
+              gap: 1,
+            }}>
+            Разработка сайта:
+            <Link
+              href='https://sergei-dev.netlify.app'
+              target='_blank'
+              sx={{
+                color: '#fb923c', // твой акцентный оранжевый
+
+                // ПОЛНОСТЬЮ УБИРАЕМ ПОДЧЕРКИВАНИЕ ДЛЯ ВСЕХ СОСТОЯНИЙ
+                textDecoration: 'none',
+
+                fontWeight: 'bold',
+                transition: 'all 0.3s ease-in-out',
+
+                // СДЕРЖАННОЕ СВЕЧЕНИЕ (Letters четкие)
+                // Всего три тонких слоя, чтобы letters были четкими
+                textShadow: `
+        0 0 4px #fb923c,     /* Тонкий контур */
+        0 0 8px rgba(251, 146, 60, 0.5), /* Мягкое рассеивание */
+        0 0 12px rgba(251, 146, 60, 0.3)  /* Едва заметный внешний ореол */
+      `,
+
+                '&:hover': {
+                  // Повторяем здесь, чтобы MUI не вернул подчеркивание
+                  textDecoration: 'none',
+
+                  // При наведении делаем чуть-чуть ярче и четче ("раскаленная нить")
+                  textShadow: `
+          0 0 4px #fff,       /* Белый контур в центре */
+          0 0 8px #fb923c,    /* Мягкий оранжевый */
+          0 0 12px #fb923c,   /* Оранжевый */
+          0 0 16px rgba(251, 146, 60, 0.5) /* Внешний ореол */
+        `,
+                },
+              }}>
+              Сергей Чертов
+            </Link>
+          </Typography>
         </Box>
       </Box>
     </ThemeProvider>
