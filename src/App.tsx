@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material'
 import Grid from '@mui/material/Grid'
-import {useEffect, useMemo, useState} from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 // Иконки
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull'
@@ -26,11 +26,10 @@ import HandymanIcon from '@mui/icons-material/Handyman'
 import SensorsIcon from '@mui/icons-material/Sensors'
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent'
 import SpeedIcon from '@mui/icons-material/Speed'
-import CodeIcon from '@mui/icons-material/Code'
 
 // Графики (pnpm add recharts)
-import {motion} from 'framer-motion'
-import {Line, LineChart, ResponsiveContainer, YAxis} from 'recharts'
+import { motion } from 'framer-motion'
+import { Line, LineChart, ResponsiveContainer, YAxis } from 'recharts'
 
 // --- ДАННЫЕ ---
 const SERVICES = [
