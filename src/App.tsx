@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material'
 import Grid from '@mui/material/Grid'
-import { useEffect, useMemo, useState } from 'react'
+import {useEffect, useMemo, useState} from 'react'
 
 // Иконки
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull'
@@ -28,9 +28,15 @@ import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputCompone
 import SpeedIcon from '@mui/icons-material/Speed'
 
 // Графики (pnpm add recharts)
-import { motion } from 'framer-motion'
-import { Line, LineChart, ResponsiveContainer, YAxis } from 'recharts'
+import {motion} from 'framer-motion'
+import {Line, LineChart, ResponsiveContainer, YAxis} from 'recharts'
 
+import PhoneIcon from '@mui/icons-material/Phone'
+
+import WhatsAppIcon from '@mui/icons-material/WhatsApp'
+import SpeedDial from '@mui/material/SpeedDial'
+import SpeedDialAction from '@mui/material/SpeedDialAction'
+import SpeedDialIcon from '@mui/material/SpeedDialIcon'
 // --- ДАННЫЕ ---
 const SERVICES = [
   {
@@ -241,6 +247,14 @@ export const App = () => {
                 },
               },
             },
+          },
+          MuiCssBaseline: {
+            styleOverrides: `
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `,
           },
         },
       }),
@@ -486,30 +500,39 @@ export const App = () => {
           </Container>
 
           {/* МАРКИ */}
-          <Box sx={{py: 6, textAlign: 'center'}}>
-            <Typography
-              variant='overline'
-              sx={{opacity: 0.5, letterSpacing: 3}}>
-              РАБОТАЕМ СО ВСЕМИ МАРКАМИ
-            </Typography>
-            <Grid container spacing={2} justifyContent='center' sx={{mt: 2}}>
-              {CAR_BRANDS.map((brand) => (
-                <Grid size={{xs: 6, sm: 3, md: 1.5}} key={brand}>
-                  <Paper
-                    variant='outlined'
-                    sx={{
-                      py: 1.5,
-                      bgcolor: 'transparent',
-                      borderColor: 'rgba(255,152,0,0.2)',
-                    }}>
-                    <Typography
-                      sx={{fontWeight: 'bold', color: 'primary.main'}}>
-                      {brand}
-                    </Typography>
-                  </Paper>
-                </Grid>
-              ))}
-            </Grid>
+        <Box sx={{ py: 6, overflow: 'hidden', bgcolor: 'transparent' }}>
+  <Typography
+    variant='overline'
+    sx={{ display: 'block', textAlign: 'center', opacity: 0.5, letterSpacing: 3, mb: 4 }}>
+    РАБОТАЕМ СО ВСЕМИ МАРКАМИ
+  </Typography>
+
+  <Box sx={{ 
+    display: 'flex', 
+    width: 'max-content', 
+    animation: 'marquee 30s linear infinite', // Скорость движения
+    '&:hover': { animationPlayState: 'paused' } // Остановка при наведении
+  }}>
+    {/* Дублируем массив дважды для плавного перехода */}
+    {[...CAR_BRANDS, ...CAR_BRANDS].map((brand, i) => (
+      <Box key={i} sx={{ px: 1 }}>
+        <Paper
+          variant='outlined'
+          sx={{
+            py: 1.5,
+            px: 4,
+            minWidth: 120,
+            textAlign: 'center',
+            bgcolor: 'transparent',
+            borderColor: 'rgba(255,152,0,0.2)',
+          }}>
+          <Typography sx={{ fontWeight: 'bold', color: 'primary.main', whiteSpace: 'nowrap' }}>
+            {brand}
+          </Typography>
+        </Paper>
+      </Box>
+    ))}
+  </Box>
           </Box>
         </Container>
 
@@ -595,6 +618,65 @@ export const App = () => {
             </Link>
           </Typography>
         </Box>
+        {/* КНОПКА ВЫЗОВА ДЛЯ МОБИЛЬНЫХ — ВСТАВЛЯЕМ СЮДА */}
+        {/* <Fab 
+          aria-label="call" 
+          href="tel:+77051832533"
+          sx={{ 
+            position: 'fixed', 
+            bottom: 24, 
+            left: 24, 
+            display: { xs: 'flex', sm: 'none' }, // Скрыта на ПК, видна на мобилках
+            bgcolor: '#fb923c', 
+            color: 'white',
+            zIndex: 1000,
+            boxShadow: '0 0 15px rgba(251, 146, 60, 0.5)',
+            '&:hover': { 
+              bgcolor: '#f97316',
+              boxShadow: '0 0 20px rgba(251, 146, 60, 0.8)',
+            } 
+          }}
+        >
+          <PhoneIcon />
+        </Fab> */}
+
+        <SpeedDial
+          ariaLabel='Contact SpeedDial'
+          sx={{
+            position: 'fixed',
+            bottom: 24,
+            left: 24,
+            display: {xs: 'flex', sm: 'none'},
+            '& .MuiSpeedDial-fab': {
+              bgcolor: '#fb923c',
+              '&:hover': {bgcolor: '#f97316'},
+              boxShadow: '0 0 15px rgba(251, 146, 60, 0.5)',
+            },
+          }}
+          icon={<SpeedDialIcon icon={<PhoneIcon />} />}
+          direction='up'>
+          {/* Номер с WhatsApp */}
+          <SpeedDialAction
+            icon={<WhatsAppIcon sx={{color: '#25D366'}} />} // Фирменный зеленый
+            tooltipTitle='WhatsApp: +7 705 183 25 33'
+            tooltipOpen
+            onClick={() => window.open('https://wa.me/77051832533', '_blank')}
+          />
+
+          {/* Остальные номера только для звонков */}
+          <SpeedDialAction
+            icon={<PhoneIcon sx={{color: '#fb923c'}} />}
+            tooltipTitle='Звонок: +7 747 820 21 89'
+            tooltipOpen
+            onClick={() => window.open('tel:+77478202189')}
+          />
+          <SpeedDialAction
+            icon={<PhoneIcon sx={{color: '#fb923c'}} />}
+            tooltipTitle='Звонок: +7 700 651 81 93'
+            tooltipOpen
+            onClick={() => window.open('tel:+77006518193')}
+          />
+        </SpeedDial>
       </Box>
     </ThemeProvider>
   )
