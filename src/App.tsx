@@ -250,10 +250,9 @@ export const App = () => {
           },
           MuiCssBaseline: {
             styleOverrides: `
-        @keyframes marquee {
+       @keyframes marquee {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
-        }
       `,
           },
         },
@@ -455,6 +454,8 @@ export const App = () => {
                       fullWidth
                       label='Номер телефона'
                       name='phone'
+                      type='tel'
+                      inputProps={{inputMode: 'tel'}}
                       variant='outlined'
                       placeholder='+7 (___) ___-__-__'
                       onChange={handleInputChange}
@@ -463,14 +464,21 @@ export const App = () => {
                   <Grid size={{xs: 12, sm: 6}}>
                     <TextField
                       fullWidth
-                      multiline // Включает многострочность
-                      rows={4} // Устанавливает высоту (количество строк)
+                      multiline
                       label='Описание проблемы'
-                      name='service' // Можно оставить или заменить на 'description'
+                      name='service'
                       value={booking.service}
                       onChange={handleInputChange}
                       placeholder='Например: горит ошибка ABS, машина не заводится'
                       variant='outlined'
+                      // Используем minRows и maxRows для гибкости или просто rows через sx
+                      minRows={2}
+                      sx={{
+                        '& .MuiInputBase-root': {
+                          // На мобилках (xs) будет одна высота, на sm и выше — другая
+                          minHeight: {xs: '80px', sm: '120px'},
+                        },
+                      }}
                     />
                   </Grid>
                   <Grid size={{xs: 12}}>
@@ -517,10 +525,9 @@ export const App = () => {
               sx={{
                 display: 'flex',
                 width: 'max-content',
-                animation: 'marquee 30s linear infinite', // Скорость движения
-                '&:hover': {animationPlayState: 'paused'}, // Остановка при наведении
+                animation: 'marquee 40s linear infinite',
+                '&:hover': {animationPlayState: 'paused'},
               }}>
-              {/* Дублируем массив дважды для плавного перехода */}
               {[...CAR_BRANDS, ...CAR_BRANDS].map((brand, i) => (
                 <Box key={i} sx={{px: 1}}>
                   <Paper
@@ -528,7 +535,7 @@ export const App = () => {
                     sx={{
                       py: 1.5,
                       px: 4,
-                      minWidth: 120,
+                      minWidth: 140,
                       textAlign: 'center',
                       bgcolor: 'transparent',
                       borderColor: 'rgba(255,152,0,0.2)',
@@ -597,33 +604,23 @@ export const App = () => {
               href='https://sergei-dev.netlify.app'
               target='_blank'
               sx={{
-                color: '#fb923c', // твой акцентный оранжевый
-
-                // ПОЛНОСТЬЮ УБИРАЕМ ПОДЧЕРКИВАНИЕ ДЛЯ ВСЕХ СОСТОЯНИЙ
+                color: '#fb923c',
                 textDecoration: 'none',
-
                 fontWeight: 'bold',
                 transition: 'all 0.3s ease-in-out',
-
-                // СДЕРЖАННОЕ СВЕЧЕНИЕ (Letters четкие)
-                // Всего три тонких слоя, чтобы letters были четкими
+                display: 'inline-block', // Важно для корректного свечения
+                px: 1, // Небольшой отступ по бокам, чтобы свечение не обрезалось
                 textShadow: `
-        0 0 4px #fb923c,     /* Тонкий контур */
-        0 0 8px rgba(251, 146, 60, 0.5), /* Мягкое рассеивание */
-        0 0 12px rgba(251, 146, 60, 0.3)  /* Едва заметный внешний ореол */
-      `,
-
+      0 0 8px rgba(251, 146, 60, 0.4),
+      0 0 12px rgba(251, 146, 60, 0.2)
+    `,
                 '&:hover': {
-                  // Повторяем здесь, чтобы MUI не вернул подчеркивание
                   textDecoration: 'none',
-
-                  // При наведении делаем чуть-чуть ярче и четче ("раскаленная нить")
                   textShadow: `
-          0 0 4px #fff,       /* Белый контур в центре */
-          0 0 8px #fb923c,    /* Мягкий оранжевый */
-          0 0 12px #fb923c,   /* Оранжевый */
-          0 0 16px rgba(251, 146, 60, 0.5) /* Внешний ореол */
-        `,
+        0 0 5px #fff,
+        0 0 10px #fb923c,
+        0 0 20px #fb923c
+      `,
                 },
               }}>
               Сергей Чертов
@@ -653,7 +650,7 @@ export const App = () => {
         </Fab> */}
 
         <SpeedDial
-          ariaLabel='Contact SpeedDial'
+          ariaLabel='Contact'
           sx={{
             position: 'fixed',
             bottom: 24,
@@ -662,29 +659,25 @@ export const App = () => {
             '& .MuiSpeedDial-fab': {
               bgcolor: '#fb923c',
               '&:hover': {bgcolor: '#f97316'},
-              boxShadow: '0 0 15px rgba(251, 146, 60, 0.5)',
             },
           }}
           icon={<SpeedDialIcon icon={<PhoneIcon />} />}
           direction='up'>
-          {/* Номер с WhatsApp */}
           <SpeedDialAction
-            icon={<WhatsAppIcon sx={{color: '#25D366'}} />} // Фирменный зеленый
-            tooltipTitle='WhatsApp: +7 705 183 25 33'
+            icon={<WhatsAppIcon sx={{color: '#25D366'}} />}
+            tooltipTitle='WhatsApp'
             tooltipOpen
             onClick={() => window.open('https://wa.me/77051832533', '_blank')}
           />
-
-          {/* Остальные номера только для звонков */}
           <SpeedDialAction
             icon={<PhoneIcon sx={{color: '#fb923c'}} />}
-            tooltipTitle='Звонок: +7 747 820 21 89'
+            tooltipTitle='+7 747 820 21 89'
             tooltipOpen
             onClick={() => window.open('tel:+77478202189')}
           />
           <SpeedDialAction
             icon={<PhoneIcon sx={{color: '#fb923c'}} />}
-            tooltipTitle='Звонок: +7 700 651 81 93'
+            tooltipTitle='+7 700 651 81 93'
             tooltipOpen
             onClick={() => window.open('tel:+77006518193')}
           />
