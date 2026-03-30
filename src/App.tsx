@@ -340,7 +340,7 @@ export const App = () => {
           </Grid>
 
           {/* ЖИВЫЕ ДАННЫЕ */}
-          <Grid container spacing={4} alignItems='center' sx={{mb: 12}}>
+          {/* <Grid container spacing={4} alignItems='center' sx={{mb: 12}}>
             <Grid size={{xs: 12, md: 5}}>
               <LiveDashboard />
             </Grid>
@@ -354,7 +354,7 @@ export const App = () => {
                 как они полностью выйдут из строя.
               </Typography>
             </Grid>
-          </Grid>
+          </Grid> */}
 
           {/* ГАЛЕРЕЯ ОБОРУДОВАНИЯ */}
           <Box sx={{mb: 12}}>
