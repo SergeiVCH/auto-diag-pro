@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material'
 import Grid from '@mui/material/Grid'
-import { useEffect, useMemo, useState } from 'react'
+import {useEffect, useMemo, useState} from 'react'
 
 // Иконки
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull'
@@ -28,8 +28,8 @@ import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputCompone
 import SpeedIcon from '@mui/icons-material/Speed'
 
 // Графики (pnpm add recharts)
-import { motion } from 'framer-motion'
-import { Line, LineChart, ResponsiveContainer, YAxis } from 'recharts'
+import {motion} from 'framer-motion'
+import {Line, LineChart, ResponsiveContainer, YAxis} from 'recharts'
 
 import PhoneIcon from '@mui/icons-material/Phone'
 
@@ -340,7 +340,7 @@ export const App = () => {
           </Grid>
 
           {/* ЖИВЫЕ ДАННЫЕ */}
-          {/* <Grid container spacing={4} alignItems='center' sx={{mb: 12}}>
+          <Grid container spacing={4} alignItems='center' sx={{mb: 12}}>
             <Grid size={{xs: 12, md: 5}}>
               <LiveDashboard />
             </Grid>
@@ -354,7 +354,7 @@ export const App = () => {
                 как они полностью выйдут из строя.
               </Typography>
             </Grid>
-          </Grid> */}
+          </Grid>
 
           {/* ГАЛЕРЕЯ ОБОРУДОВАНИЯ */}
           <Box sx={{mb: 12}}>
