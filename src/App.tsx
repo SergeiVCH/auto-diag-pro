@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material'
 import Grid from '@mui/material/Grid'
-import {useEffect, useMemo, useState} from 'react'
+import { useMemo, useState } from 'react'
 
 // Иконки
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull'
@@ -23,13 +23,11 @@ import BuildIcon from '@mui/icons-material/Build'
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar'
 import EngineeringIcon from '@mui/icons-material/Engineering'
 import HandymanIcon from '@mui/icons-material/Handyman'
-import SensorsIcon from '@mui/icons-material/Sensors'
 import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent'
 import SpeedIcon from '@mui/icons-material/Speed'
 
 // Графики (pnpm add recharts)
-import {motion} from 'framer-motion'
-import {Line, LineChart, ResponsiveContainer, YAxis} from 'recharts'
+import { motion } from 'framer-motion'
 
 import PhoneIcon from '@mui/icons-material/Phone'
 
@@ -73,7 +71,7 @@ const SERVICES = [
 
 const EQUIPMENT = [
   {
-    title: 'LAUNCH PRO',
+    title: 'LAUNCH X431 Master',
     desc: 'Дилерский уровень: чтение данных, адаптации и кодирование блоков.',
     src: 'https://i.ibb.co.com/67Jv1mnK/IMG-1635.jpg',
   },
@@ -151,60 +149,60 @@ const CAR_BRANDS = [
 ]
 
 // --- КОМПОНЕНТ ГРАФИКА ---
-const LiveDashboard = () => {
-  const [rpm, setRpm] = useState(800)
-  const [history, setHistory] = useState(
-    Array.from({length: 20}, (_, i) => ({t: i, v: 800})),
-  )
+// const LiveDashboard = () => {
+//   const [rpm, setRpm] = useState(800)
+//   const [history, setHistory] = useState(
+//     Array.from({length: 20}, (_, i) => ({t: i, v: 800})),
+//   )
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const nextRpm = Math.floor(Math.random() * (820 - 780 + 1)) + 780
-      setRpm(nextRpm)
-      setHistory((prev) => [...prev.slice(1), {t: Date.now(), v: nextRpm}])
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [])
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       const nextRpm = Math.floor(Math.random() * (820 - 780 + 1)) + 780
+//       setRpm(nextRpm)
+//       setHistory((prev) => [...prev.slice(1), {t: Date.now(), v: nextRpm}])
+//     }, 1000)
+//     return () => clearInterval(interval)
+//   }, [])
 
-  return (
-    <motion.div
-      initial={{opacity: 0, x: -100}} // Вылетает слева
-      whileInView={{opacity: 1, x: 0}}
-      transition={{duration: 0.8, ease: 'easeOut'}}
-      viewport={{once: true}}>
-      <Paper
-        sx={{
-          p: 3,
-          bgcolor: alpha('#132f4c', 0.5),
-          backdropFilter: 'blur(10px)',
-        }}>
-        <Stack direction='row' spacing={2} alignItems='center' mb={2}>
-          <SensorsIcon color='primary' />
-          <Typography variant='h6'>LIVE DATA</Typography>
-        </Stack>
-        <Typography variant='h3' color='primary' sx={{fontWeight: 900}}>
-          {rpm} RPM
-        </Typography>
-        <Box sx={{width: '100%', height: 80, mt: 2}}>
-          <ResponsiveContainer>
-            <LineChart data={history}>
-              <YAxis domain={[600, 1000]} hide />
-              <Line
-                type='monotone'
-                dataKey='v'
-                stroke='#ff9800'
-                strokeWidth={3}
-                dot={false}
-                isAnimationActive={false}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </Box>
-      </Paper>
-    </motion.div>
-    //
-  )
-}
+//   return (
+//     <motion.div
+//       initial={{opacity: 0, x: -100}} // Вылетает слева
+//       whileInView={{opacity: 1, x: 0}}
+//       transition={{duration: 0.8, ease: 'easeOut'}}
+//       viewport={{once: true}}>
+//       <Paper
+//         sx={{
+//           p: 3,
+//           bgcolor: alpha('#132f4c', 0.5),
+//           backdropFilter: 'blur(10px)',
+//         }}>
+//         <Stack direction='row' spacing={2} alignItems='center' mb={2}>
+//           <SensorsIcon color='primary' />
+//           <Typography variant='h6'>LIVE DATA</Typography>
+//         </Stack>
+//         <Typography variant='h3' color='primary' sx={{fontWeight: 900}}>
+//           {rpm} RPM
+//         </Typography>
+//         <Box sx={{width: '100%', height: 80, mt: 2}}>
+//           <ResponsiveContainer>
+//             <LineChart data={history}>
+//               <YAxis domain={[600, 1000]} hide />
+//               <Line
+//                 type='monotone'
+//                 dataKey='v'
+//                 stroke='#ff9800'
+//                 strokeWidth={3}
+//                 dot={false}
+//                 isAnimationActive={false}
+//               />
+//             </LineChart>
+//           </ResponsiveContainer>
+//         </Box>
+//       </Paper>
+//     </motion.div>
+//     //
+//   )
+// }
 
 // --- ОСНОВНОЙ КОМПОНЕНТ ---
 export const App = () => {
@@ -340,7 +338,7 @@ export const App = () => {
           </Grid>
 
           {/* ЖИВЫЕ ДАННЫЕ */}
-          <Grid container spacing={4} alignItems='center' sx={{mb: 12}}>
+          {/* <Grid container spacing={4} alignItems='center' sx={{mb: 12}}>
             <Grid size={{xs: 12, md: 5}}>
               <LiveDashboard />
             </Grid>
@@ -354,7 +352,7 @@ export const App = () => {
                 как они полностью выйдут из строя.
               </Typography>
             </Grid>
-          </Grid>
+          </Grid> */}
 
           {/* ГАЛЕРЕЯ ОБОРУДОВАНИЯ */}
           <Box sx={{mb: 12}}>
