@@ -360,7 +360,7 @@ export const App = () => {
           <Box sx={{mb: 12}}>
             <Stack direction='row' spacing={2} justifyContent='center' mb={6}>
               <HandymanIcon color='primary' fontSize='large' />
-              <Typography variant='h4' sx={{fontWeight: 800}}>
+              <Typography variant='h5' sx={{fontWeight: 800}}>
                 НАШЕ ОБОРУДОВАНИЕ
               </Typography>
             </Stack>
@@ -423,7 +423,7 @@ export const App = () => {
                   borderColor: 'primary.main',
                 }}>
                 <Typography
-                  variant='h4'
+                  variant='h6'
                   align='center'
                   sx={{fontWeight: 900, mb: 4, color: 'white'}}>
                   ЗАПИСЬ НА ДИАГНОСТИКУ
